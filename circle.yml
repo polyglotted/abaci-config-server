@@ -14,9 +14,13 @@ dependencies:
     - docker run -d --name config-server -p 8080:8080 -v "`pwd`:/data" polyglotted/${PROJECT}:${VERSION}
 
 test:
+  pre:
+    - sleep 10
   override:
-    - sleep 5 && "[[ $(curl http://localhost:8080/) = 'Hello World!' ]]"
+    - "curl http://localhost:8080/"
+    - "[[ $(curl http://localhost:8080/) = 'Hello World!' ]]"
   post:
+    - docker logs config-server > $CIRCLE_TEST_REPORTS/Dockerlogs.log
     - docker images > $CIRCLE_TEST_REPORTS/Dockerimages.log
     - docker stop config-server
 
