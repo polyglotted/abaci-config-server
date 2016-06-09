@@ -6,8 +6,9 @@ machine:
 
 dependencies:
   pre:
-    - CGO_ENABLED=0 go build -a -installsuffix nocgo .
     - echo "Hello World!" > ./index.html
+    - CGO_ENABLED=0 go build -a -installsuffix nocgo .
+    - ls -lR .
   override:
     - docker build -t polyglotted/abaci-config-server:${VERSION} .
     - docker run --name config-server -p 8080:8080 -v .:/data polyglotted/abaci-config-server:${VERSION}
@@ -25,5 +26,5 @@ deployment:
   hub:
     tag: /v[0-9]+(\.[0-9]+)*/
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PWD
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker polyglotted/abaci-config-server:${VERSION}
