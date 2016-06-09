@@ -11,7 +11,7 @@ dependencies:
     - CGO_ENABLED=0 go build -a -ldflags '-s' -installsuffix nocgo .
   override:
     - docker build -t polyglotted/${PROJECT}:${VERSION} .
-    - docker run --name config-server -p 8080:8080 -v .:/data polyglotted/${PROJECT}:${VERSION}
+    - docker run --name config-server -p 8080:8080 -v "`pwd`:/data" polyglotted/${PROJECT}:${VERSION}
     - sleep 10
 
 test:
