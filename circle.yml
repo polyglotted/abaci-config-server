@@ -9,16 +9,13 @@ dependencies:
   pre:
     - echo "Hello World!" > ./index.html
     - CGO_ENABLED=0 go build -a -ldflags '-s' -installsuffix nocgo .
-    - ls -lR
   override:
     - docker build -t polyglotted/${PROJECT}:${VERSION} .
     - docker run -d --name config-server -p 8080:8080 -v "`pwd`:/data" polyglotted/${PROJECT}:${VERSION}
-    - sleep 10
 
 test:
   override:
-    - "curl http://localhost:8080/"
-    - "[[ $(curl http://localhost:8080/) = 'Hello World!' ]]"
+    - sleep 5 && "[[ $(curl http://localhost:8080/) = 'Hello World!' ]]"
   post:
     - docker images > $CIRCLE_TEST_REPORTS/Dockerimages.log
     - docker stop config-server
