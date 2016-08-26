@@ -57,10 +57,10 @@ func Download(rawUrl string) {
     }
 }
 
-func Unzip(src, dest string) error {
+func Unzip(src, dest string) string {
     r, err := zip.OpenReader(src)
     if err != nil {
-        return err
+        panic(err)
     }
     defer func() {
         if err := r.Close(); err != nil {
