@@ -49,7 +49,7 @@ func Download(rawUrl string) {
     }
     defer resp.Body.Close()
 
-    size, err := io.Copy(file, resp.Body)
+    _, err := io.Copy(file, resp.Body)
     if err != nil {
         panic(err)
     }
