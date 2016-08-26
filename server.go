@@ -15,14 +15,14 @@ import (
 func main() {
     rawUrl := flag.String("url", "", "download zip file")
     flag.Parse()
-    log.Printf("Downloading and unzipping %s\n", *rawUrl)
+    log.Println("Downloading and unzipping %s", *rawUrl)
 
     Download(*rawUrl)
     Unzip("/tmp/downloaded.zip", "/data")
 
     http.Handle("/", http.FileServer(http.Dir("/data")))
 
-    log.Printf("Serving /data on HTTP port 8080\n")
+    log.Println("Serving /data on HTTP port 8080")
     log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
@@ -32,7 +32,7 @@ func Download(rawUrl string) {
 
     file, err := os.Create(fileName)
     if err != nil {
-     log.Printf(err + "\n")
+     log.Println(err)
      panic(err)
     }
     defer file.Close()
@@ -46,7 +46,7 @@ func Download(rawUrl string) {
 
     resp, err := check.Get(rawUrl)
     if err != nil {
-        log.Printf(err + "\n")
+        log.Println(err)
         panic(err)
     }
     defer resp.Body.Close()
