@@ -18,7 +18,7 @@ func main() {
     Download(*rawUrl)
     destPath := Unzip("/tmp/downloaded.zip", "/")
     log.Println("Unzipped ", *destPath)
-    os.Symlink(destPath, "/data")
+    os.Symlink(*destPath, "/data")
 
     http.Handle("/", http.FileServer(http.Dir("/data")))
 
@@ -111,5 +111,5 @@ func Unzip(src, dest string) *string {
     }
 
     result := filepath.Join(dest, r.File[0].Name)
-    return result
+    return *result
 }
