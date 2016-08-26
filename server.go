@@ -57,7 +57,7 @@ func Download(rawUrl string) {
     }
 }
 
-func Unzip(src, dest string) string {
+func Unzip(src, dest string) *string {
     r, err := zip.OpenReader(src)
     if err != nil {
         panic(err)
@@ -110,5 +110,6 @@ func Unzip(src, dest string) string {
         }
     }
 
-    return filepath.Join(dest, r.File[0].Name)
+    result := filepath.Join(dest, r.File[0].Name)
+    return result
 }
