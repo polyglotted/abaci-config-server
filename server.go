@@ -13,10 +13,12 @@ import (
 func main() {
     rawUrl := flag.String("url", "", "download zip file")
     flag.Parse()
-    log.Println("Downloading and unzipping %s", *rawUrl)
+    log.Println("Downloading ", *rawUrl)
 
     Download(*rawUrl)
-    Unzip("/tmp/downloaded.zip", "/data")
+    destPath := Unzip("/tmp/downloaded.zip", "/")
+    log.Println("Unzipped ", *destPath)
+    os.Symlink(destPath, "/data")
 
     http.Handle("/", http.FileServer(http.Dir("/data")))
 
@@ -66,8 +68,6 @@ func Unzip(src, dest string) error {
         }
     }()
 
-    os.MkdirAll(dest, 0755)
-
     // Closure to address file descriptors issue with all the deferred .Close() methods
     extractAndWriteFile := func(f *zip.File) error {
         rc, err := f.Open()
@@ -106,9 +106,9 @@ func Unzip(src, dest string) error {
     for _, f := range r.File {
         err := extractAndWriteFile(f)
         if err != nil {
-            return err
+            panic(err)
         }
     }
 
-    return nil
+    return filepath.Join(dest, r.File[0].Name)
 }
