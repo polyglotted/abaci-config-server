@@ -12,7 +12,7 @@ import (
 
 func main() {
     rawUrl := flag.String("url", "", "download zip file")
-    localVol := flag.Bool("local", false, "is local volume")
+    var localVol = flag.Bool("local", false, "is local volume")
     flag.Parse()
 
     if localVol == false {
