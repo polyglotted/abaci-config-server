@@ -12,13 +12,18 @@ import (
 
 func main() {
     rawUrl := flag.String("url", "", "download zip file")
+    localVol := flag.Bool("local", false", "is local volume")
     flag.Parse()
-    log.Println("Downloading ", *rawUrl)
 
-    Download(*rawUrl)
-    destPath := Unzip("/tmp/downloaded.zip", "/")
-    log.Println("Unzipped ", destPath)
-    os.Symlink(destPath, "/data")
+    if localVol != false {
+        log.Println("Downloading ", *rawUrl)
+        Download(*rawUrl)
+
+        destPath := Unzip("/tmp/downloaded.zip", "/")
+        log.Println("Unzipped ", destPath)
+
+        os.Symlink(destPath, "/data")
+    }
 
     http.Handle("/", http.FileServer(http.Dir("/data")))
 
