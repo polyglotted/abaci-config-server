@@ -15,7 +15,7 @@ func main() {
     var localVol = flag.Bool("local", false, "is local volume")
     flag.Parse()
 
-    if localVol == false {
+    if !localVol {
         log.Println("Downloading ", *rawUrl)
         Download(*rawUrl)
 
