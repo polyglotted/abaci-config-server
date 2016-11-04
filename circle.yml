@@ -12,7 +12,7 @@ dependencies:
   override:
     - docker build -t polyglotted/${PROJECT}:${VERSION} .
     - docker run -d --name config-server -p 8080:8080 -e "RAW_URL=https://github.com/polyglotted/interview-angular-js/archive/v1.0.0.zip" polyglotted/${PROJECT}:${VERSION}
-    - docker run -d --name config-server-2 -p 8081:8080 -e "LOCAL_VOL=true" -v .:/data polyglotted/${PROJECT}:${VERSION}
+    - docker run -d --name config-server-2 -p 8081:8080 -e "LOCAL_VOL=true" -v `pwd`:/data polyglotted/${PROJECT}:${VERSION}
 
 test:
   pre:
