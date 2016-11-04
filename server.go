@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+    port := flag.String("port", "8080", "port to serve on")
     rawUrl := flag.String("url", "", "download zip file")
     localVol := flag.Bool("local", false, "is local volume")
     flag.Parse()
@@ -27,8 +28,8 @@ func main() {
 
     http.Handle("/", http.FileServer(http.Dir("/data")))
 
-    log.Println("Serving /data on HTTP port 8080")
-    log.Fatal(http.ListenAndServe(":8080", nil))
+    log.Printf("Serving /data on HTTP port %s\n", *port)
+    log.Fatal(http.ListenAndServe(":" + *port, nil))
 }
 
 func Download(rawUrl string) {

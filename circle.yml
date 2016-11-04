@@ -18,10 +18,10 @@ test:
   pre:
     - sleep 10
   override:
-    - "curl http://localhost:8080/"
-    - "curl http://localhost:8081/"
-    - "[[ $(curl http://localhost:8080/) = 'Hello World!' ]]"
-    - "[[ $(curl http://localhost:8081/) = 'Hello World!' ]]"
+    - "curl http://localhost:8080/index.html"
+    - "curl http://localhost:8081/index.html"
+    - "[[ $(curl http://localhost:8080/index.html) = 'Hello World!' ]]"
+    - "[[ $(curl http://localhost:8081/index.html) = 'Hello World!' ]]"
   post:
     - docker logs config-server > $CIRCLE_TEST_REPORTS/Dockerlogs.log
     - docker images > $CIRCLE_TEST_REPORTS/Dockerimages.log
